@@ -1,0 +1,20 @@
+{
+  "name": "diamond-loupe-benchmark",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^17.2.3",
+    "hardhat": "^2.27.0",
+    "hardhat-gas-reporter": "^2.3.0"
+  }
+}
