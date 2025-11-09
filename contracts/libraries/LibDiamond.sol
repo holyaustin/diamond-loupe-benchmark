@@ -12,12 +12,10 @@ library LibDiamond {
     }
 
     struct DiamondStorage {
-        address contractOwner;
         mapping(bytes4 => FacetAndPosition) facetAndPosition;
         bytes4[] selectors;
+        address contractOwner;
     }
-
-    event DiamondCut(IDiamondCut.FacetCut[] _diamondCut, address _init, bytes _calldata);
 
     function diamondStorage() internal pure returns (DiamondStorage storage ds) {
         bytes32 position = DIAMOND_STORAGE_POSITION;
@@ -26,18 +24,17 @@ library LibDiamond {
         }
     }
 
+    event DiamondCut(IDiamondCut.FacetCut[] _diamondCut, address _init, bytes _calldata);
+
     function setContractOwner(address _owner) internal {
-        DiamondStorage storage ds = diamondStorage();
-        ds.contractOwner = _owner;
+        diamondStorage().contractOwner = _owner;
     }
 
-    function contractOwner() internal view returns (address owner) {
-        owner = diamondStorage().contractOwner;
+    function contractOwner() internal view returns (address) {
+        return diamondStorage().contractOwner;
     }
 
     function enforceIsContractOwner() internal view {
-        if (msg.sender != contractOwner()) {
-            revert("LibDiamond: Must be contract owner");
-        }
+        require(msg.sender == contractOwner(), "LibDiamond: Must be contract owner");
     }
 }

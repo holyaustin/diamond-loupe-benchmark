@@ -2,16 +2,21 @@
 pragma solidity >=0.8.30;
 
 import {LibDiamond} from "./libraries/LibDiamond.sol";
+import {IDiamondCut} from "./interfaces/IDiamondCut.sol";
 
 contract Diamond {
     constructor(address _diamondCutFacet) payable {
-        // Set deployer as owner
+        // store owner as deployer
         LibDiamond.setContractOwner(msg.sender);
-        (bool success, ) = _diamondCutFacet.call("");
-        require(success, "Diamond: Facet init failed");
-        // DiamondCutFacet will be attached later via diamondCut
-    }
 
+        // register diamondCut selector and point to provided facet
+        LibDiamond.DiamondStorage storage ds = LibDiamond.diamondStorage();
+        bytes4 selector = IDiamondCut.diamondCut.selector;
+
+        // add mapping & selector array
+        ds.facetAndPosition[selector] = LibDiamond.FacetAndPosition(_diamondCutFacet, uint16(ds.selectors.length));
+        ds.selectors.push(selector);
+    }
 
     fallback() external payable {
         LibDiamond.DiamondStorage storage ds = LibDiamond.diamondStorage();
@@ -23,12 +28,8 @@ contract Diamond {
             let result := delegatecall(gas(), facet, 0, calldatasize(), 0, 0)
             returndatacopy(0, 0, returndatasize())
             switch result
-            case 0 {
-                revert(0, returndatasize())
-            }
-            default {
-                return(0, returndatasize())
-            }
+            case 0 { revert(0, returndatasize()) }
+            default { return(0, returndatasize()) }
         }
     }
 

@@ -1,2 +1,13 @@
 Selectors,Facets,Function,Old_Gas,New_Gas,Gas_Saved,Pct_Saved
-
+40,20,OldFacet,0,0,0,0
+40,20,NewFacet,0,0,0,0
+64,16,OldFacet,0,0,0,0
+64,16,NewFacet,0,0,0,0
+64,32,OldFacet,0,0,0,0
+64,32,NewFacet,0,0,0,0
+64,64,OldFacet,0,0,0,0
+64,64,NewFacet,0,0,0,0
+504,42,OldFacet,0,0,0,0
+504,42,NewFacet,0,0,0,0
+1000,84,OldFacet,0,0,0,0
+1000,84,NewFacet,0,0,0,0
